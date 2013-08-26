@@ -6,7 +6,7 @@ package breakfast.club;
  */
 public class BreakfastClub {
     public static void main(String[] args) {
-        // TODO code application logic here
+        System.out.println("Testing...");
     }
 
 }

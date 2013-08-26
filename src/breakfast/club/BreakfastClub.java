@@ -8,6 +8,7 @@ public class BreakfastClub {
     public static void main(String[] args) {
         System.out.println("Testing...");
         int test = 0;
+        int test2= 1;
     }
 
 }

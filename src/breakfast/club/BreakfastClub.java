@@ -7,6 +7,7 @@ package breakfast.club;
 public class BreakfastClub {
     public static void main(String[] args) {
         System.out.println("Testing...");
+        int test = 0;
     }
 
 }

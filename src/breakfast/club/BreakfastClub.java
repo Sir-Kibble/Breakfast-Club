@@ -9,6 +9,11 @@ public class BreakfastClub {
         System.out.println("Testing...");
         int test = 0;
         int test2= 1;
+        
+        LaunchWindow lw = new LaunchWindow();
+        
+        lw.setVisible(true);
+        
     }
 
 }

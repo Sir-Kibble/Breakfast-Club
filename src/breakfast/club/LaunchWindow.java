@@ -49,6 +49,11 @@ public class LaunchWindow extends javax.swing.JFrame {
         btnSave.setText("Save");
 
         btnDisplay.setText("Display Histogram");
+        btnDisplay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDisplayActionPerformed(evt);
+            }
+        });
 
         txtAreaNums.setColumns(20);
         txtAreaNums.setLineWrap(true);
@@ -129,6 +134,14 @@ public class LaunchWindow extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void btnDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayActionPerformed
+        
+        HistogramDisplay hd = new HistogramDisplay(this);
+        hd.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_btnDisplayActionPerformed
 
     /**
      * @param args the command line arguments

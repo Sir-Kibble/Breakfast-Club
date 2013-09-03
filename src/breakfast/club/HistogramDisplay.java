@@ -38,8 +38,18 @@ public class HistogramDisplay extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnStats.setText("Display Statistics");
+        btnStats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStatsActionPerformed(evt);
+            }
+        });
 
         btnCustomize.setText("Customize Histogram");
+        btnCustomize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCustomizeActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Edit Input Data");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -81,6 +91,21 @@ public class HistogramDisplay extends javax.swing.JFrame {
         this.setVisible(false);
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatsActionPerformed
+        
+        StatisticsDisplay sd = new StatisticsDisplay();
+        sd.setVisible(true);
+        
+    }//GEN-LAST:event_btnStatsActionPerformed
+
+    private void btnCustomizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomizeActionPerformed
+        
+        CustomizeDisplay cd = new CustomizeDisplay();
+        cd.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_btnCustomizeActionPerformed
 
     /**
      * @param args the command line arguments

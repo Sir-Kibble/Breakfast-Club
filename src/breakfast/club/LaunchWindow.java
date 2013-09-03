@@ -4,6 +4,12 @@
  */
 package breakfast.club;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import javax.swing.JFileChooser;
+import java.util.*;
+
 /**
  *
  * @author jwvandyke
@@ -30,21 +36,27 @@ public class LaunchWindow extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnDisplay = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAreaNums = new javax.swing.JTextArea();
         lblTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         btnLoad.setText("Load");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Save");
 
         btnDisplay.setText("Display Histogram");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtAreaNums.setColumns(20);
+        txtAreaNums.setLineWrap(true);
+        txtAreaNums.setRows(5);
+        jScrollPane1.setViewportView(txtAreaNums);
 
         lblTitle.setFont(new java.awt.Font("Brush Script MT", 0, 54)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -90,6 +102,37 @@ public class LaunchWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        
+        JFileChooser fc = new JFileChooser();
+        int x = fc.showOpenDialog(fc);
+        
+        ArrayList al = new ArrayList();
+        
+        try {
+        
+            FileReader fr = new FileReader(fc.getSelectedFile());
+            BufferedReader br = new BufferedReader(fr);
+            Scanner in = new Scanner(br);
+            
+            while (in.hasNextDouble()) {
+                
+                Double num = in.nextDouble();
+                
+                txtAreaNums.append(num.toString() + " ");
+                
+            }
+            
+        }
+        
+        catch (FileNotFoundException fnf) {
+            
+            
+            
+        }
+        
+    }//GEN-LAST:event_btnLoadActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -129,7 +172,7 @@ public class LaunchWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnSave;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTextArea txtAreaNums;
     // End of variables declaration//GEN-END:variables
 }

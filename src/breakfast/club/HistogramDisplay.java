@@ -4,6 +4,8 @@
  */
 package breakfast.club;
 
+import java.awt.BorderLayout;
+
 /**
  *
  * @author jwvandyke
@@ -11,13 +13,15 @@ package breakfast.club;
 public class HistogramDisplay extends javax.swing.JFrame {
 
     LaunchWindow lw;
+    HistoRenderer H;
     
     /**
      * Creates new form HistogramDisplay
      */
     public HistogramDisplay(LaunchWindow lw) {
         initComponents();
-        
+        H = new HistoRenderer(false);
+        this.add(H, BorderLayout.CENTER);
         this.lw = lw;
         
     }

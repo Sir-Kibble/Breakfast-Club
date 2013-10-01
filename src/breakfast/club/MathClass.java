@@ -45,25 +45,25 @@ public class MathClass {
             //x-axis total width?
         }
         
-        public double[] barHeight( double numBars, double[] values ) {
+        public List<Double> barHeight( double numBars, List<Double> values ) {
             
             double sum = 0; //Sum of values 
             double classNum = 0; //Number of classes: sum of values divided by number of bars
             
             int count = 1;
-            double[]  barDimen = new double[100];
-            double tempSum = values[0];
+            ArrayList<Double> barDimen = new ArrayList<Double>(); //Convert to ArrayList
+            //ArrayList<Double> tempSum = values[0]; //Convert to ArrayList
             int barLocation = 0;
           
-            for( int i = 0; i < values.length; i++ ) {
-                Arrays.sort( values );
-                sum = sum + values[i];
+            for( int i = 0; i < values.size(); i++ ) {
+                Collections.sort( values );
+                sum = sum + values.get(i);
             }
             
             classNum = sum / numBars; 
             
-            // ???
-            for( int i = 1; i < numBars; i++ ) {
+            // ??? Please adjust this code to implement arraylist instead of arrays
+            /*for( int i = 1; i < numBars; i++ ) {
                 if( i == classNum * count ) {
                    barDimen[ barLocation ] = tempSum / numBars;
                    tempSum = 0;
@@ -71,7 +71,7 @@ public class MathClass {
                    count++;
                 }
                 tempSum += values[i];
-            }
+            }*/
             
             return barDimen;
         }

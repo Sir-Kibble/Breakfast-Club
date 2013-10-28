@@ -108,7 +108,11 @@ public class MathClass {
         this.ucl = ucl;
     }
 
-    //method computing x-axis, do we need to return anything? 
+    /**method computing x-axis, do we need to return anything? 
+     * 
+     * @param numBars
+     * @return 
+     */
     public double xaxis(double numBars) {
 
         //if user enters number b/w 4 & 20
@@ -125,7 +129,13 @@ public class MathClass {
         //System.out.println(numBars);
         return numBars;
     }
-
+    /**
+     * Calculates bar width
+     * @param lcl
+     * @param ucl
+     * @param numBars
+     * @return barWidth
+     */
     public double barWidth( double lcl, double ucl, double numBars) {
         double width = 0;
         numBars = xaxis(numBars);

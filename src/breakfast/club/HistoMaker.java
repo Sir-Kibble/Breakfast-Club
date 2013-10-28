@@ -29,8 +29,10 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public HistoMaker(boolean go){
         T = new Thread(this);
         M = new MathClass();
-        c = new Color(215,215,215);//a light grey
+        c = new Color(255,255,255);//white
         started = go;
+        if(go)
+            this.start();
         
     }//end constructor
 
@@ -61,8 +63,8 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             
             //Adding random color mode eventually for extra eye strain?
             G.setColor(c);//using grey
-            G.drawRect(0, 0, 34, 34);//proof of concept
-            
+            G.drawRect(0, 0, 340, 34);//proof of concept
+            //System.out.println("hello");
             //this.repaint();  //uncomment if broken
         }//end if(started)
     }//end paintComponent

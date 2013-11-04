@@ -101,9 +101,8 @@ public class MathClass {
     public MathClass() {
 
     }
-    public MathClass(double n, double tableWidth, double lcl, double ucl) {
+    public MathClass(double n, double lcl, double ucl) {
         this.n = n;
-        this.tableWidth = tableWidth;
         this.lcl = lcl;
         this.ucl = ucl;
     }

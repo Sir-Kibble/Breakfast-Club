@@ -94,10 +94,27 @@ import java.util.ArrayList;
 public class MathClass {
 //x-axis
     double tableWidth;
+    double[] data;
+    ArrayList<Double> A;
+    ArrayList<Double> heights;
     double n = 0; //data set quantity
     double lcl = 0; //lower class limit
     double ucl = 0; //upper class limit
 
+    public MathClass(ArrayList<Double> a,int useSpec){
+        Double [] dat = a.toArray(new Double[0]);
+        //this is literally the only way to do this...
+        for(int x = 0;x < dat.length;x++){
+            data[x] = dat[x];
+        }//end for
+        
+        nCalc(useSpec);
+        heights = barHeight();
+    }
+    //find # bins
+    //split a between bins
+    //find lcl ucl on each bin
+    //other calculations?
     public MathClass() {
 
     }
@@ -106,13 +123,25 @@ public class MathClass {
         this.lcl = lcl;
         this.ucl = ucl;
     }
+    
+    
+    
+    /**calculates the # of 'bins' or columns the data will be put into.  
+     * @param numColumns User-specified input.  If <4 or > 20, it's recalculated
+     */
+    private void nCalc(int x){
+        if (x < 4 || x > 20)
+            n = Math.floor(Math.sqrt(x));
+        else
+            n = x;
+    }//end
 
     /**method computing x-axis, do we need to return anything? 
      * 
      * @param numBars
      * @return 
      */
-    public double xaxis(double numBars) {
+    public int xaxis(double numBars) {
 
         //if user enters number b/w 4 & 20
         if( numBars > 4 && numBars < 20 ) {
@@ -126,7 +155,7 @@ public class MathClass {
 
         }
         //System.out.println(numBars);
-        return numBars;
+        return 0;//numBars;
     }
     /**
      * Calculates bar width
@@ -144,9 +173,11 @@ public class MathClass {
             //if all barWidths are the same, the return is used for all bars
     }
 
-    public ArrayList<Double> barHeight( double numBars, ArrayList<Double> values ) {
+    public ArrayList<Double> barHeight() {
+        ArrayList<Double> values;
+        values = A;
         ArrayList<Double> barDimen = new ArrayList<Double>(); //Convert to ArrayList
-
+        double numBars = n;
         double sum = 0; //Sum of values 
         //double classNum = 0; //Number of classes: sum of values divided by number of bars
 

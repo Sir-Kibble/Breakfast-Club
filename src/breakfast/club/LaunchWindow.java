@@ -179,6 +179,8 @@ import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import java.util.*;
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -285,7 +287,7 @@ public class LaunchWindow extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         int x = fc.showOpenDialog(fc);
         
-        ArrayList al = new ArrayList();
+        ArrayList al = new ArrayList<Double>();
         
         
         try {
@@ -325,10 +327,20 @@ public class LaunchWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoadActionPerformed
  
     private void btnDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayActionPerformed
-        
+        ArrayList al = new ArrayList(); 
+        String x = txtAreaNums.getText(); 
+        Pattern p = Pattern.compile("\\d+"); 
+        Matcher m = p.matcher(x); 
+        if(m.find()) { al.add(Double.parseDouble(m.group(0))); } 
+        p = Pattern.compile("\\s\\d+"); 
+        m = p.matcher(x); 
+        while (m.find()) 
+            { 
+                al.add(Double.parseDouble(m.group(0)));
+            }
         HistogramDisplay hd = new HistogramDisplay(this);
         hd.setLayout(new BorderLayout());
-        hd.add(new HistoMaker(true),BorderLayout.CENTER);
+        hd.add(new HistoMaker(true, al, /*will be userinput eventually*/10),BorderLayout.CENTER);
         hd.setVisible(true);
         this.setVisible(false);
         

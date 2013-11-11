@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.*;
+import java.util.ArrayList;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 //import java.util.ArrayList;
@@ -26,9 +27,10 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     int clicks;
     
     //begin constructor.  May remove boolean arg for future
-    public HistoMaker(boolean go){
+    public HistoMaker(boolean go, ArrayList<Double> data, int userSpec){
+        double [] temp;
         T = new Thread(this);
-        M = new MathClass();
+        M = new MathClass(data,userSpec);
         c = new Color(255,255,255);//white
         started = go;
         if(go)
@@ -64,6 +66,8 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             //Adding random color mode eventually for extra eye strain?
             G.setColor(c);//using grey
             G.drawRect(0, 0, 340, 34);//proof of concept
+            
+            
             //System.out.println("hello");
             //this.repaint();  //uncomment if broken
         }//end if(started)

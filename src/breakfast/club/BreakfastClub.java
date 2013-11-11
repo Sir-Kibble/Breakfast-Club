@@ -6,7 +6,7 @@ package breakfast.club;
  */
 public class BreakfastClub {
     public static void main(String[] args) {
-        System.out.println("Testing...");
+        System.out.println("NEw branch that does kool things!");
         int test = 0;
         int test2= 1;
         

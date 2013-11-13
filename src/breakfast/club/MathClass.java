@@ -89,7 +89,7 @@ public class MathClass {
  */
 package breakfast.club;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class MathClass {
 //x-axis
@@ -246,6 +246,71 @@ public class MathClass {
 
         return barDimen;
     }
+    
+    public static double getMean(ArrayList<Double> al) {
+        
+        double x = 0;
+        
+        for (int i = 0; i < al.size(); i++) {
+            
+            double temp = (double) al.get(i);
+            
+            x += temp;
+            
+        }
+        
+        return x / al.size();
+        
+    }
+    public static double getMedian(ArrayList<Double> al) {
+        
+        Collections.sort(al);
+        
+        int mid = al.size()/2;
+        if (al.size()%2 == 1) {
+            
+            return (double)al.get(mid);
+            
+        }//end if
+        
+        else {
+            
+            return ((double)al.get(mid - 1) + (double)al.get(mid)) / 2;
+            
+        }//end else
+        
+    }//end getMedian
+    
+    public static int getMode(ArrayList<Integer> al) {
+        
+        int val = 0, maxCount = 0;
+        
+        for (int i = 0; i < al.size(); ++i) {
+            
+            int count = 0;
+            
+            for (int j = 0; j < al.size(); ++j) {
+                
+                if (al.get(j) == al.get(i)) {
+                    
+                    ++count;
+                    
+                }//end if
+                
+            }//end for
+            
+            if (count > maxCount) {
+                
+                maxCount = count;
+                val = (int)al.get(i);
+                
+            }//end if
+            
+        }//end for
+        
+        return val;
+        
+    }//end getMode
 }
 //}
 

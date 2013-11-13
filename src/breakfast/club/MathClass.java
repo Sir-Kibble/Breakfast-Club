@@ -97,7 +97,7 @@ public class MathClass {
     double[] data;
     ArrayList<Double> A;
     ArrayList<Double> heights;
-    double n = 0; //data set quantity
+    int n = 0; //data set quantity
     double lcl = 0; //lower class limit
     double ucl = 0; //upper class limit
 
@@ -118,7 +118,7 @@ public class MathClass {
     public MathClass() {
 
     }
-    public MathClass(double n, double lcl, double ucl) {
+    public MathClass(int n, double lcl, double ucl) {
         this.n = n;
         this.lcl = lcl;
         this.ucl = ucl;
@@ -131,7 +131,7 @@ public class MathClass {
      */
     private void nCalc(int x){
         if (x < 4 || x > 20)
-            n = Math.floor(Math.sqrt(x));
+            n = (int)Math.floor(Math.sqrt(x));
         else
             n = x;
     }//end

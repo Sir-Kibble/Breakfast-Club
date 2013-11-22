@@ -19,38 +19,58 @@ import javax.swing.JOptionPane;
  */
 public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public static final int TYPE_USHORT_555_RGB = 9;
-    Thread T;
-    Color c;
-    MathClass M;
-    int X,Y,n;
-    boolean started;
-    int clicks;
-    
+    private  Thread T;
+    private Color c;
+    private MathClass M;
+    private int X,Y,n;
+    private boolean started;
+    private int clicks;
+    private int[] heights;
     //begin constructor.  May remove boolean arg for future
-    public HistoMaker(boolean go, ArrayList<Double> data, int userSpec){
+    public HistoMaker(){
+        T = new Thread(this);
+        started = false;
+    }
+    public HistoMaker(boolean go, ArrayList<Double> data){
         double [] temp;
         T = new Thread(this);
         M = new MathClass(data);
+        heights = M.barHeight();
         n = M.getNumOfBars();
         c = new Color(255,255,255);//white
         started = go;
         if(go)
             this.start();
-        
     }//end constructor
-
+    
+    /**
+     * Starts the thread if it has not been started.  Does nothing otherwise.
+     */
     public void start(){
         T.start();
+        started  = true;
     }//end start
 
     public void isReady() {
         this.started = true;
     }
-
+    /**Returns whether the thread on HistoMaker is started or not
+     * @return False if not started.  True if started
+     */
     public boolean getState(){
-    return started;
+        return started;
     }
-
+    
+    /**
+     * This method is to be called whenever the input data to draw the histogram is changed.  
+     * Updates the Math class stored inside HistoMaker;
+     * @param ArrayList<Double>
+     */
+    public void setData(ArrayList<Double> a){
+        M = new MathClass(a);
+        heights = M.barHeight();
+        n = M.getNumOfBars();
+    }//end setData
     
     /**
      * This will be doing all of the painting to the monitor.  Basics include drawing the actual histogram,
@@ -66,21 +86,28 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             
             //Adding random color mode eventually for extra eye strain?
             G.setColor(c);//using grey
-            G.drawRect(0, 0, 340, 34);//proof of concept
+            G.fillRect(0, 0, 99, 99);//proof of concept
             //draw headers and lines here
             
+            //for each bar, draw a corresponding rectangle
             
-            for(int x = 0; x < n; x++){
-                G.fillRect(50/*add offset for window here*/, 300/*add offset for window here*/, 50, 1);
+            for(int x = 0; x < heights.length; x++){
+                G.fillRect((int)M.getClassWidth()*(x+1) + 100, this.getY() - 100, (int)M.getClassWidth(), heights[x]);
             }//end for
             //System.out.println("hello");
             //this.repaint();  //uncomment if broken
         }//end if(started)
     }//end paintComponent
 
+    /**
+     * What the thread does once started.  Runs until the program is killed.  
+     * Waits every 45 ms to allow other threads access to system resources
+     * only calls repaint method to update the panel
+     */
     public void run(){
+        System.out.println("x: "+this.getX()+", y: "+this.getY());
         while(true){
-                repaint();
+                this.repaint();
              try{
         T.sleep(45);
         }catch(InterruptedException googles){

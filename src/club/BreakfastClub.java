@@ -1,6 +1,7 @@
 package club;
 
 
+import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,11 +26,13 @@ public class BreakfastClub extends javax.swing.JFrame {
     /**
      * Creates new form BreakfastClub
      */
-    
+    private HistoMaker H;
+    private ArrayList<Double> al;
     public BreakfastClub() {
-        
+        H = new HistoMaker();
         initComponents();
-        
+        pnlDisplay.setLayout(new BorderLayout());
+        pnlDisplay.add(H,BorderLayout.CENTER);
     }
 
     /**
@@ -92,7 +95,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                     .addComponent(btnDisplay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -116,7 +119,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCustomizeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnDisplayCustomized, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+                .addComponent(btnDisplayCustomized, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlCustomizeLayout.setVerticalGroup(
@@ -133,7 +136,7 @@ public class BreakfastClub extends javax.swing.JFrame {
         pnlDisplay.setLayout(pnlDisplayLayout);
         pnlDisplayLayout.setHorizontalGroup(
             pnlDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 564, Short.MAX_VALUE)
+            .addGap(0, 718, Short.MAX_VALUE)
         );
         pnlDisplayLayout.setVerticalGroup(
             pnlDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,7 +201,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             .addGroup(pnlStatsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                     .addGroup(pnlStatsLayout.createSequentialGroup()
                         .addGroup(pnlStatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlStatsLayout.createSequentialGroup()
@@ -300,8 +303,7 @@ public class BreakfastClub extends javax.swing.JFrame {
         int x = fc.showOpenDialog(fc);
 
         txtAreaNums.setText("");
-        
-        ArrayList<Double> al = new ArrayList();
+        al = new ArrayList();
 
         try {
 
@@ -388,7 +390,7 @@ public class BreakfastClub extends javax.swing.JFrame {
     private void btnDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayActionPerformed
         
         String x = txtAreaNums.getText();
-
+        
         ArrayList<Double> nums = new ArrayList<Double>();
 
         Matcher m = Pattern.compile((("\\d+(\\.\\d+)?"))).matcher(x);
@@ -406,8 +408,10 @@ public class BreakfastClub extends javax.swing.JFrame {
             nums.add(Double.parseDouble(m.group(0)));
 
         }
-        
+        H.setData(nums);
         Statistics s = new Statistics(nums, this);
+        if(!H.getState())// start the histogram diplay if not already started
+            H.start();
         
     }//GEN-LAST:event_btnDisplayActionPerformed
 

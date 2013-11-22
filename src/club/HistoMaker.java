@@ -37,7 +37,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         M = new MathClass(data);
         heights = M.barHeight();
         n = M.getNumOfBars();
-        c = new Color(255,255,255);//white
+        c = new Color(255,255,255);//black
         started = go;
         if(go)
             this.start();
@@ -75,6 +75,9 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     /**
      * This will be doing all of the painting to the monitor.  Basics include drawing the actual histogram,
      * but will hopefully be expanded to having tooltips and the like when the user hovers over columns.
+     * 
+     * It is important to note that the origin for graphics is the top left corner(0,0).
+     * all numbers sued to paint will have to be negative in order to show up on the screen 
      */
     @Override
     public void paintComponent(Graphics G){
@@ -82,17 +85,17 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         if(started){
             //grabbing screen size...
             X = this.getWidth();
-            Y = this.getY();
-            
+            Y = this.getHeight();
+            int sizeFactor = 10;//this will be dynamic later
+            c = new Color(20,128,128);
             //Adding random color mode eventually for extra eye strain?
             G.setColor(c);//using grey
-            G.fillRect(0, 0, 99, 99);//proof of concept
             //draw headers and lines here
             
             //for each bar, draw a corresponding rectangle
             
             for(int x = 0; x < heights.length; x++){
-                G.fillRect((int)M.getClassWidth()*(x+1) + 100, this.getY() - 100, (int)M.getClassWidth(), heights[x]);
+                G.fillRect((int)M.getClassWidth()*(x+1) + 100, Y - 100, (int)M.getClassWidth(), -heights[x]*sizeFactor);
             }//end for
             //System.out.println("hello");
             //this.repaint();  //uncomment if broken

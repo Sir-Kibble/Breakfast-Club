@@ -412,7 +412,6 @@ public class BreakfastClub extends javax.swing.JFrame {
         Statistics s = new Statistics(nums, this);
         if(!H.getState())// start the histogram diplay if not already started
             H.start();
-        
     }//GEN-LAST:event_btnDisplayActionPerformed
 
     /**

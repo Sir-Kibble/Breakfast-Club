@@ -400,7 +400,6 @@ public class BreakfastClub extends javax.swing.JFrame {
             nums.add(Double.parseDouble(m.group(0)));
 
         }
-
         m = Pattern.compile(("\\s\\d+(\\.\\d+)?")).matcher(x);
 
         while (m.find()) {

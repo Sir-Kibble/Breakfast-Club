@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public static final int TYPE_USHORT_555_RGB = 9;
     private  Thread T;
-    private Color c;
+    private Color c;//temp color
     private MathClass M;
     private int X,Y,n;
     private boolean started;
@@ -89,11 +89,12 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             int sizeFactor = 10;//this will be dynamic later
             c = new Color(20,128,128);
             //Adding random color mode eventually for extra eye strain?
-            G.setColor(c);//using grey
+            G.setColor(Color.BLACK);//using grey
             //draw headers and lines here
-            
+            G.drawLine(99, 100, 99, Y-99);
+            G.drawLine(99, Y-99, X-100, Y-99);
             //for each bar, draw a corresponding rectangle
-            
+            G.setColor(c);
             for(int x = 0; x < heights.length; x++){
                 G.fillRect((int)M.getClassWidth()*(x+1) + 100, Y - 100, (int)M.getClassWidth(), -heights[x]*sizeFactor);
             }//end for

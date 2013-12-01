@@ -22,21 +22,29 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     private  Thread T;
     private Color c;//temp color
     private MathClass M;
-    private int X,Y,n;
+    private int X,Y,n,ticks;
+    private double yFactor;
     private boolean started;
     private int clicks;
     private int[] heights;
     //begin constructor.  May remove boolean arg for future
     public HistoMaker(){
         T = new Thread(this);
+        Y = this.getHeight();
+        X = this.getWidth();
         started = false;
+        ticks = 5;
     }
     public HistoMaker(boolean go, ArrayList<Double> data){
         double [] temp;
         T = new Thread(this);
         M = new MathClass(data);
+        Y = this.getHeight();
+        X = this.getWidth();
         heights = M.barHeight();
         n = M.getNumOfBars();
+        ticks = 5;
+        yFactor = 1.0;
         c = new Color(255,255,255);//black
         started = go;
         if(go)
@@ -54,6 +62,12 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public void isReady() {
         this.started = true;
     }
+    /**Sets the # of ticks used in the histogram.  Numbers too high will cause text overlap
+     * @param int ticks
+     */
+    public void setTicks(int ticks){
+        this.ticks = ticks;
+    }//ned setTciks
     /**Returns whether the thread on HistoMaker is started or not
      * @return False if not started.  True if started
      */
@@ -71,7 +85,46 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         heights = M.barHeight();
         n = M.getNumOfBars();
     }//end setData
-    
+    /**Draws the tick marks for the graph.  Also calculates the yFactor to keep
+     * columns in the drawable area.
+     * @param Graphics G
+     * 
+     */
+    private void drawTicks(Graphics G){
+        int high = (int)M.ucl;
+        int low = (int)M.lcl;
+        X = this.getWidth();
+        Y = this.getHeight();
+        //98
+        int tyFactor = (high - low) / ticks;//integer division
+        //making space to draw numbers for ticks
+        String text = Double.toString(Math.abs(tyFactor));
+        int decimalPlaces = text.length() - text.indexOf('.') - 1;
+        
+        // = ucl - lcl / numTicks
+        
+        for(int x = 1; x <= ticks; x++){
+            G.drawLine(94, (Y - 99) + (int)tyFactor*x, 99, (Y - 99) + (int)tyFactor*x);
+            G.drawString(""+tyFactor*x, 100 - decimalPlaces * 5, (Y - 99) + (int)tyFactor*x);
+        }//end for
+    }//end drawticks
+    /**Calculates the stretch factor to keep the histogram on the page.  Loops though 
+     * the bar heights and finds the highest.  From the max height, it find the multiple 
+     * that will cause it to hit the max of the y axis.  all other values will be 
+     * multiplied by that value to keep scale.
+     * 
+     * 
+     */
+    private void calcYFactor(){
+        int max = 0;
+        for(int x = 0; x < M.numOfBars;x++){
+            if(heights[x] > max){
+                max = heights[x];
+            }
+        }//end for
+        //using dloat division
+        yFactor = (double)Y / (double)max;
+    }//end calcyfactor
     /**
      * This will be doing all of the painting to the monitor.  Basics include drawing the actual histogram,
      * but will hopefully be expanded to having tooltips and the like when the user hovers over columns.
@@ -83,6 +136,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public void paintComponent(Graphics G){
         super.paintComponent(G);
         if(started){
+            
             //grabbing screen size...
             X = this.getWidth();
             Y = this.getHeight();
@@ -96,8 +150,11 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             //for each bar, draw a corresponding rectangle
             G.setColor(c);
             for(int x = 0; x < heights.length; x++){
-                G.fillRect((int)M.getClassWidth()*(x+1) + 100, Y - 100, (int)M.getClassWidth(), -heights[x]*sizeFactor);
+                //may need to rever to M.getclaswidth();
+                G.fillRect(99 + x*((X-200)/M.numOfBars), Y - 99, 99 + (x+1)*((X-200)/M.numOfBars), -heights[x]*sizeFactor);
             }//end for
+            //drawing tick marks
+            drawTicks(G);
             //System.out.println("hello");
             //this.repaint();  //uncomment if broken
         }//end if(started)

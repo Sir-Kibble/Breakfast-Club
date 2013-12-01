@@ -3,7 +3,7 @@ package club;
 import java.util.*;
 
 public class MathClass {
-
+    
     ArrayList<Double> al;
     double ucl;
     double lcl;

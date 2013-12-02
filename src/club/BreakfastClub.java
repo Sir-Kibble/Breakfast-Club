@@ -52,6 +52,14 @@ public class BreakfastClub extends javax.swing.JFrame {
         btnDisplay = new javax.swing.JButton();
         pnlCustomize = new javax.swing.JPanel();
         btnDisplayCustomized = new javax.swing.JButton();
+        lblHistogram = new javax.swing.JLabel();
+        lblXTitle = new javax.swing.JLabel();
+        lblYTitle = new javax.swing.JLabel();
+        lblNumOfBars = new javax.swing.JLabel();
+        cboNumOfBars = new javax.swing.JComboBox();
+        txtYAxis = new javax.swing.JTextField();
+        txtXTitle = new javax.swing.JTextField();
+        txtTitle = new javax.swing.JTextField();
         pnlDisplay = new javax.swing.JPanel();
         pnlStats = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -66,10 +74,12 @@ public class BreakfastClub extends javax.swing.JFrame {
         mbFile = new javax.swing.JMenu();
         mnitLoad = new javax.swing.JMenuItem();
         mnitSave = new javax.swing.JMenuItem();
+        mnitSaveHisto = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(589, 625));
+        setPreferredSize(new java.awt.Dimension(589, 625));
 
         lblTitle.setFont(new java.awt.Font("Brush Script MT", 0, 54)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -112,20 +122,66 @@ public class BreakfastClub extends javax.swing.JFrame {
         tabStatistics.addTab("Enter Data", jPanel1);
 
         btnDisplayCustomized.setText("Display Histogram");
+        btnDisplayCustomized.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDisplayCustomizedActionPerformed(evt);
+            }
+        });
+
+        lblHistogram.setText("Histogram Title:");
+
+        lblXTitle.setText("X-Axis Title:");
+
+        lblYTitle.setText("Y-Axis Title:");
+
+        lblNumOfBars.setText("Number of Bars:");
+
+        cboNumOfBars.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Square Root of n", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
 
         javax.swing.GroupLayout pnlCustomizeLayout = new javax.swing.GroupLayout(pnlCustomize);
         pnlCustomize.setLayout(pnlCustomizeLayout);
         pnlCustomizeLayout.setHorizontalGroup(
             pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCustomizeLayout.createSequentialGroup()
+            .addGroup(pnlCustomizeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnDisplayCustomized, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDisplayCustomized, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+                    .addGroup(pnlCustomizeLayout.createSequentialGroup()
+                        .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblNumOfBars, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblYTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblXTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTitle)
+                            .addComponent(txtXTitle)
+                            .addComponent(txtYAxis)
+                            .addComponent(cboNumOfBars, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlCustomizeLayout.setVerticalGroup(
             pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCustomizeLayout.createSequentialGroup()
-                .addContainerGap(446, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHistogram)
+                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblXTitle)
+                    .addComponent(txtXTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblYTitle)
+                    .addComponent(txtYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumOfBars)
+                    .addComponent(cboNumOfBars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
                 .addComponent(btnDisplayCustomized)
                 .addContainerGap())
         );
@@ -259,6 +315,14 @@ public class BreakfastClub extends javax.swing.JFrame {
         });
         mbFile.add(mnitSave);
 
+        mnitSaveHisto.setText("Save Histogram");
+        mnitSaveHisto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnitSaveHistoActionPerformed(evt);
+            }
+        });
+        mbFile.add(mnitSaveHisto);
+
         jMenuItem1.setText("Exit");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,9 +333,6 @@ public class BreakfastClub extends javax.swing.JFrame {
 
         menuBar.add(mbFile);
 
-        jMenu2.setText("Edit");
-        menuBar.add(jMenu2);
-
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -281,7 +342,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabStatistics, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tabStatistics, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
                     .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -303,7 +364,8 @@ public class BreakfastClub extends javax.swing.JFrame {
         int x = fc.showOpenDialog(fc);
 
         txtAreaNums.setText("");
-        al = new ArrayList();
+        
+        ArrayList<Double> al = new ArrayList();
 
         try {
 
@@ -400,6 +462,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             nums.add(Double.parseDouble(m.group(0)));
 
         }
+        
         m = Pattern.compile(("\\s\\d+(\\.\\d+)?")).matcher(x);
 
         while (m.find()) {
@@ -409,9 +472,41 @@ public class BreakfastClub extends javax.swing.JFrame {
         }
         H.setData(nums);
         Statistics s = new Statistics(nums, this);
+        
         if(!H.getState())// start the histogram diplay if not already started
             H.start();
+        
     }//GEN-LAST:event_btnDisplayActionPerformed
+
+    private void mnitSaveHistoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnitSaveHistoActionPerformed
+
+        //Put Code here to save the image of the histogram
+
+    }//GEN-LAST:event_mnitSaveHistoActionPerformed
+
+    private void btnDisplayCustomizedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayCustomizedActionPerformed
+        
+        String title = txtTitle.getText();
+        String xTitle = txtXTitle.getText();
+        String yTitle = txtYAxis.getText();
+        String numOfBars = (String)cboNumOfBars.getSelectedItem();
+        
+        int numberOfBars = 0;
+        
+        if (numOfBars.equals("Square Root of n")) {
+            
+            numberOfBars = 0;
+            //Need to pass this to MathClass someway
+            
+        }
+        
+        else {
+            
+            numberOfBars = Integer.parseInt(numOfBars);
+            
+        }
+        
+    }//GEN-LAST:event_btnDisplayCustomizedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -450,27 +545,35 @@ public class BreakfastClub extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisplay;
     private javax.swing.JButton btnDisplayCustomized;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JComboBox cboNumOfBars;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblHistogram;
     public javax.swing.JLabel lblMean;
     public javax.swing.JLabel lblMeanData;
     public javax.swing.JLabel lblMedian;
     public javax.swing.JLabel lblMedianData;
     public javax.swing.JLabel lblMode;
     public javax.swing.JLabel lblModeData;
+    private javax.swing.JLabel lblNumOfBars;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblXTitle;
+    private javax.swing.JLabel lblYTitle;
     private javax.swing.JMenu mbFile;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnitLoad;
     private javax.swing.JMenuItem mnitSave;
+    private javax.swing.JMenuItem mnitSaveHisto;
     private javax.swing.JPanel pnlCustomize;
     private javax.swing.JPanel pnlDisplay;
     private javax.swing.JPanel pnlStats;
     private javax.swing.JTabbedPane tabStatistics;
     public javax.swing.JTable tblData;
     private javax.swing.JTextArea txtAreaNums;
+    private javax.swing.JTextField txtTitle;
+    private javax.swing.JTextField txtXTitle;
+    private javax.swing.JTextField txtYAxis;
     // End of variables declaration//GEN-END:variables
 }

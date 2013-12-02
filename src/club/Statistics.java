@@ -14,6 +14,7 @@ public class Statistics {
     ArrayList<Double> data;
     BreakfastClub bc;
     MathClass mc;
+    int n;
     
     public Statistics(ArrayList<Double> data, BreakfastClub bc) {
         
@@ -77,8 +78,10 @@ public class Statistics {
     
     public void setTable() {
         
-        MathClass mc = new MathClass(data);
-        
+        if(n == 0)
+            mc = new MathClass(data);
+        else
+            mc = new MathClass(data,n);
         double lower = mc.lcl;
         double higher = lower + mc.cw;
         

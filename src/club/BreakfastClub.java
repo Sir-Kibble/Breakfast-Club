@@ -2,7 +2,10 @@ package club;
 
 
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
 /*
@@ -27,6 +31,7 @@ public class BreakfastClub extends javax.swing.JFrame {
      * Creates new form BreakfastClub
      */
     private HistoMaker H;
+    private Statistics s;
     private ArrayList<Double> al;
     public BreakfastClub() {
         H = new HistoMaker();
@@ -476,17 +481,39 @@ public class BreakfastClub extends javax.swing.JFrame {
 
         }
         H.setData(nums);
-        Statistics s = new Statistics(nums, this);
-        
+        s = new Statistics(nums,this);
+        if(cboNumOfBars.getSelectedIndex() != 0)
+        s.n = Integer.parseInt((String)cboNumOfBars.getSelectedItem());
+        else
+            s.n = 0;
         if(!H.getState())// start the histogram diplay if not already started
             H.start();
         
     }//GEN-LAST:event_btnDisplayActionPerformed
 
     private void mnitSaveHistoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnitSaveHistoActionPerformed
-
-        //Put Code here to save the image of the histogram
-
+        
+JFileChooser jfc = new JFileChooser();
+        
+        int x = jfc.showSaveDialog(null);
+        
+        if (x == JFileChooser.APPROVE_OPTION) {
+            
+        Container C = H;
+        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_RGB);
+        C.paint(im.getGraphics());
+        try{
+            ImageIO.write(im, "png", new File(jfc.getSelectedFile()+".png"));
+                
+            }//end try
+            
+            catch (Exception ex) {
+                
+                
+                
+            }//end catch
+            
+        }//end if
     }//GEN-LAST:event_mnitSaveHistoActionPerformed
 
     private void btnDisplayCustomizedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayCustomizedActionPerformed
@@ -514,6 +541,7 @@ public class BreakfastClub extends javax.swing.JFrame {
         H.title = title;
         H.xAxis = xTitle;
         H.yAxis = yTitle;
+        btnDisplayActionPerformed(evt);
     }//GEN-LAST:event_btnDisplayCustomizedActionPerformed
 
     private void cboNumOfBarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumOfBarsActionPerformed

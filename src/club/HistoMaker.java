@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.MouseListener;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 //import java.util.ArrayList;
 /**
@@ -20,12 +21,13 @@ import javax.swing.JOptionPane;
 public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public static final int TYPE_USHORT_555_RGB = 9;
     private  Thread T;
+    //private JColorChooser JC;
     private Color c;//temp color
     private MathClass M;
     String title,xAxis,yAxis;
-    private int X,Y,n,ticks, max, min;
+    private int X,Y,n,ticks, max, min,mouseX,mouseY;
     private double yFactor;
-    private boolean started;
+    private boolean started,flag;
     private int clicks;
     private int[] heights;
     //begin constructor.  May remove boolean arg for future
@@ -33,13 +35,17 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         T = new Thread(this);
         Y = this.getHeight();
         X = this.getWidth();
+        
         started = false;
         ticks = 5;
         min = 0;
+        //JC = new JColorChooser();
     }
     public HistoMaker(boolean go, ArrayList<Double> data){
         double [] temp;
         T = new Thread(this);
+        
+        //JC = new JColorChooser();
         min = 0;
         M = new MathClass(data);
         Y = this.getHeight();
@@ -82,7 +88,10 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
      * @param ArrayList<Double>
      */
     public void setData(ArrayList<Double> a){
-        M = new MathClass(a);
+        if(n == 0)
+            M = new MathClass(a);
+        else
+            M = new MathClass(a,n);
         heights = M.barHeight();
         n = M.getNumOfBars();
         int maxx = 0;
@@ -109,7 +118,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         Y = this.getHeight();
         //98
         int max = 0;
-        for(int x = 0; x < n; x++){
+        for(int x = 0; x < heights.length; x++){
             if(heights[x] > max)
                 max = heights[x];
         }//end for
@@ -123,7 +132,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         }//end while
         //making space to draw numbers for ticks
         for(int x = 0; x <= (max/count/* + max%count*/);x++){
-            G.drawLine(94, (Y-99) - tyFactor * x,X,(Y-99) - tyFactor * x);
+            G.drawLine(94, (Y-99) - tyFactor * x,X-100,(Y-99) - tyFactor * x);
             G.drawString(""+(x*count), 89 - (decimalPlaces*10), (Y-98) - tyFactor*x);
         }//end for
         yFactor = tyFactor;
@@ -154,9 +163,11 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         super.paintComponent(G);
         if(started){
             //axis and title
+            if(title != null)
             G.drawString(title, X/2, 45);
+            if(xAxis != null)
             G.drawString(xAxis,X/2,Y-45);
-            if(yAxis.equals(""))
+            if(yAxis == null)
                 G.drawString("Frequency", 10, Y/2);
             else
                 G.drawString(yAxis, 10, Y/2);
@@ -177,8 +188,13 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             double lower = M.lcl;
             double higher = lower + M.cw;
             for(int x = 0; x < heights.length; x++){
-                G.setColor(c);
-                G.fillRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
+                if(mouseX > 100 + x*((X-200)/M.numOfBars) && mouseX < 100 + (x+1)*((X-200)/M.numOfBars))
+                    
+                    G.setColor(JColorChooser.showDialog(this, "Pick a color", null));
+                else
+                    G.setColor(c);
+                
+                G.drawRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
                 G.setColor(Color.BLACK);
                 //G.drawRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
                 
@@ -193,6 +209,9 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
                 }
                 lower = higher;
                 higher = lower + M.cw;
+                flag = false;
+                mouseX = 0;
+                mouseY = 0;
             }//end for
         }//end if(started)
     }//end paintComponent
@@ -213,7 +232,9 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     }//end run
     //start mouse methods
     public void mouseClicked(MouseEvent e) {
-            
+            mouseX = e.getX();
+            mouseY = e.getY();
+            flag = true;
     }
     public void mousePressed(MouseEvent e) {
 
@@ -229,12 +250,12 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     }
     private void saveHistogram(){
         Container C = this;
-        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_BGR);
         C.paint(im.getGraphics());
         try{
             ImageIO.write(im, "PNG", new File("Histogram.png"));
         }catch(Exception e){
-            
+            System.out.println("Error saving file!!");
         }//end catch
     }//end save
 

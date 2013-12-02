@@ -24,6 +24,20 @@ public class MathClass {
         cw = getClassWidth();
         
     }//end constructor
+        public MathClass(ArrayList<Double> al, int n) {
+        
+        this.al = al;
+        
+        Collections.sort(al);
+        
+        lcl = al.get(0);
+        ucl = al.get(al.size() - 1);
+        
+        numOfBars = n;
+        
+        cw = getClassWidth();
+        
+    }//end constructor
     
     public double getQ1() {
         

@@ -137,6 +137,11 @@ public class BreakfastClub extends javax.swing.JFrame {
         lblNumOfBars.setText("Number of Bars:");
 
         cboNumOfBars.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Square Root of n", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        cboNumOfBars.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboNumOfBarsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCustomizeLayout = new javax.swing.GroupLayout(pnlCustomize);
         pnlCustomize.setLayout(pnlCustomizeLayout);
@@ -342,7 +347,7 @@ public class BreakfastClub extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabStatistics, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
+                    .addComponent(tabStatistics, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -503,10 +508,17 @@ public class BreakfastClub extends javax.swing.JFrame {
         else {
             
             numberOfBars = Integer.parseInt(numOfBars);
+            H.setN(numberOfBars);
             
         }
-        
+        H.title = title;
+        H.xAxis = xTitle;
+        H.yAxis = yTitle;
     }//GEN-LAST:event_btnDisplayCustomizedActionPerformed
+
+    private void cboNumOfBarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumOfBarsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboNumOfBarsActionPerformed
 
     /**
      * @param args the command line arguments

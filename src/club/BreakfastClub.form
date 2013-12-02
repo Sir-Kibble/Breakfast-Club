@@ -77,7 +77,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="tabStatistics" alignment="1" pref="723" max="32767" attributes="0"/>
+                  <Component id="tabStatistics" alignment="1" max="32767" attributes="0"/>
                   <Component id="lblTitle" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -294,6 +294,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboNumOfBarsActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtYAxis">
             </Component>

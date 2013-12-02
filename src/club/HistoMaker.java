@@ -22,6 +22,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     private  Thread T;
     private Color c;//temp color
     private MathClass M;
+    String title,xAxis,yAxis;
     private int X,Y,n,ticks, max, min;
     private double yFactor;
     private boolean started;
@@ -107,17 +108,22 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         X = this.getWidth();
         Y = this.getHeight();
         //98
-        String text = Double.toString(Math.abs(M.ucl));
+        int max = 0;
+        for(int x = 0; x < n; x++){
+            if(heights[x] > max)
+                max = heights[x];
+        }//end for
+        String text = Double.toString(max);
         int decimalPlaces = text.length() - text.indexOf('.') - 1;
         int tyFactor = (Y-200)/max;//integer division.  # between ticks
         //dynamic resizing so the ticks don't get all squished together
         while(tyFactor < 20/*num of pixil in height*/){
             tyFactor *= 2;
-            count++;
+            count*=2;
         }//end while
         //making space to draw numbers for ticks
-        for(int x = 0; x <= (max/count + max%count);x++){
-            G.drawLine(94, (Y-99) - tyFactor * x,99,(Y-99) - tyFactor * x);
+        for(int x = 0; x <= (max/count/* + max%count*/);x++){
+            G.drawLine(94, (Y-99) - tyFactor * x,X,(Y-99) - tyFactor * x);
             G.drawString(""+(x*count), 89 - (decimalPlaces*10), (Y-98) - tyFactor*x);
         }//end for
         yFactor = tyFactor;
@@ -148,7 +154,12 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         super.paintComponent(G);
         if(started){
             //axis and title
-            G.drawString("Frequency", 10, Y/2);
+            G.drawString(title, X/2, 45);
+            G.drawString(xAxis,X/2,Y-45);
+            if(yAxis.equals(""))
+                G.drawString("Frequency", 10, Y/2);
+            else
+                G.drawString(yAxis, 10, Y/2);
             //grabbing screen size...
             X = this.getWidth();
             Y = this.getHeight();
@@ -160,41 +171,28 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             G.drawLine(99, Y-99, X-100, Y-99);
             //drawing tick marks
             drawYTicks(G);
-            /*double lower = mc.lcl;
-        double higher = lower + mc.cw;
-        
-        int[] bars = mc.barHeight();
-        
-        for (int i = 0; i < mc.numOfBars; i++) {
-        
-            if (i == 0) {
             
-                bc.tblData.setValueAt("(" + (Math.round(lower*100.0)/100.0) + ", " + (Math.round(higher*100.0)/100.0) + ")", i, 0);
-            
-            }
-            
-            else {
-                
-                bc.tblData.setValueAt("[" + (Math.round(lower*100.0)/100.0) + ", " + (Math.round(higher*100.0)/100.0) + ")", i, 0);
-                
-            }
-            bc.tblData.setValueAt(bars[i], i, 1);
-            double relFreq = ((bars[i] / (double)data.size()) * 100.0);
-            relFreq = Math.round(relFreq * 100.0)/100.0;
-            bc.tblData.setValueAt(relFreq + "%", i, 2);
-            lower = higher;
-            higher = lower + mc.cw;
-        }*///1 2 3 4 4 3 3 3 5 5 5 4 4 3 2 2
+        //1 2 3 4 4 3 3 3 5 5 5 4 4 3 2 2
             yFactor = (Y-200)/max;
+            double lower = M.lcl;
+            double higher = lower + M.cw;
             for(int x = 0; x < heights.length; x++){
                 G.setColor(c);
                 G.fillRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
                 G.setColor(Color.BLACK);
-                G.drawRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
+                //G.drawRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
                 
                 
                 G.drawLine(99 + (x+1)*((X-200)/M.numOfBars), Y - 99,99 + (x+1)*((X-200)/M.numOfBars), Y - 105);
                 
+                if (x == 0) {
+                    G.drawString("(" + (Math.round(lower*100.0)/100.0) + ")",75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
+                }
+                else {
+                    G.drawString("[" + (Math.round(lower*100.0)/100.0) +")",75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
+                }
+                lower = higher;
+                higher = lower + M.cw;
             }//end for
         }//end if(started)
     }//end paintComponent
@@ -239,4 +237,85 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             
         }//end catch
     }//end save
+
+    public Thread getT() {
+        return T;
+    }
+
+    public void setT(Thread T) {
+        this.T = T;
+    }
+
+    public Color getC() {
+        return c;
+    }
+
+    public void setC(Color c) {
+        this.c = c;
+    }
+
+    public MathClass getM() {
+        return M;
+    }
+
+    public void setM(MathClass M) {
+        this.M = M;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public double getyFactor() {
+        return yFactor;
+    }
+
+    public void setyFactor(double yFactor) {
+        this.yFactor = yFactor;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public int getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(int clicks) {
+        this.clicks = clicks;
+    }
+
+    public int[] getHeights() {
+        return heights;
+    }
+
+    public void setHeights(int[] heights) {
+        this.heights = heights;
+    }
+    
 }//end GameRenderer

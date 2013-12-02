@@ -60,7 +60,6 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         T.start();
         started  = true;
     }//end start
-
     public void isReady() {
         this.started = true;
     }
@@ -69,14 +68,13 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
      */
     public void setTicks(int ticks){
         this.ticks = ticks;
-    }//ned setTciks
+    }//end setTciks
     /**Returns whether the thread on HistoMaker is started or not
      * @return False if not started.  True if started
      */
     public boolean getState(){
         return started;
     }
-    
     /**
      * This method is to be called whenever the input data to draw the histogram is changed.  
      * Updates the Math class stored inside HistoMaker;
@@ -87,17 +85,15 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
         heights = M.barHeight();
         n = M.getNumOfBars();
         int maxx = 0;
-        for(int x = 0; x < M.numOfBars;x++){
-            if(heights[x] > maxx){
-                maxx = heights[x];
-                max = maxx;
-            }
-        }//end for
         int minn = Integer.MAX_VALUE;//maxium so it'll get replaced
         for(int x = 0; x < M.numOfBars;x++){
             if(heights[x] < minn){
                 minn = heights[x];
                 min = minn;
+            }
+            if(heights[x] > maxx){
+                maxx = heights[x];
+                max = maxx;
             }
         }//end for
     }//end setData
@@ -106,21 +102,27 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
      * @param Graphics G
      * 
      */
-    private void drawTicks(Graphics G){
-        
+    private void drawYTicks(Graphics G){
+        int count = 1;
         X = this.getWidth();
         Y = this.getHeight();
         //98
         String text = Double.toString(Math.abs(M.ucl));
         int decimalPlaces = text.length() - text.indexOf('.') - 1;
-        int tyFactor = (Y-200)/ticks;//integer division.  # between ticks
+        int tyFactor = (Y-200)/max;//integer division.  # between ticks
+        //dynamic resizing so the ticks don't get all squished together
+        while(tyFactor < 20/*num of pixil in height*/){
+            tyFactor *= 2;
+            count++;
+        }//end while
         //making space to draw numbers for ticks
-        for(int x = 0; x <= ticks;x++){
-            G.drawLine(94, (Y-99) - (int)tyFactor * x,99,(Y-99) - (int)tyFactor * x);
-            G.drawString(""+(max/ticks)*x, 89 - (decimalPlaces*10), (Y-98) - (int)tyFactor*x);
+        for(int x = 0; x <= (max/count + max%count);x++){
+            G.drawLine(94, (Y-99) - tyFactor * x,99,(Y-99) - tyFactor * x);
+            G.drawString(""+(x*count), 89 - (decimalPlaces*10), (Y-98) - tyFactor*x);
         }//end for
+        yFactor = tyFactor;
     }//end drawticks
-    /**Calculates the stretch factor to keep the histogram on the page.  Loops though 
+    /**LEGACY CODE.  Calculates the stretch factor to keep the histogram on the page.  Loops though 
      * the bar heights and finds the highest.  From the max height, it find the multiple 
      * that will cause it to hit the max of the y axis.  all other values will be 
      * multiplied by that value to keep scale.
@@ -145,11 +147,11 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public void paintComponent(Graphics G){
         super.paintComponent(G);
         if(started){
-            
+            //axis and title
+            G.drawString("Frequency", 10, Y/2);
             //grabbing screen size...
             X = this.getWidth();
             Y = this.getHeight();
-            int sizeFactor = 10;//this will be dynamic later
             c = new Color(20,128,128);
             //Adding random color mode eventually for extra eye strain?
             G.setColor(Color.BLACK);//using grey
@@ -157,20 +159,45 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             G.drawLine(99, 100, 99, Y-99);
             G.drawLine(99, Y-99, X-100, Y-99);
             //drawing tick marks
-            drawTicks(G);
-            //for each bar, draw a corresponding rectangle
-            G.setColor(c);
-            //setting the mult. factor to fit everything on screen
-            calcYFactor();
+            drawYTicks(G);
+            /*double lower = mc.lcl;
+        double higher = lower + mc.cw;
+        
+        int[] bars = mc.barHeight();
+        
+        for (int i = 0; i < mc.numOfBars; i++) {
+        
+            if (i == 0) {
+            
+                bc.tblData.setValueAt("(" + (Math.round(lower*100.0)/100.0) + ", " + (Math.round(higher*100.0)/100.0) + ")", i, 0);
+            
+            }
+            
+            else {
+                
+                bc.tblData.setValueAt("[" + (Math.round(lower*100.0)/100.0) + ", " + (Math.round(higher*100.0)/100.0) + ")", i, 0);
+                
+            }
+            bc.tblData.setValueAt(bars[i], i, 1);
+            double relFreq = ((bars[i] / (double)data.size()) * 100.0);
+            relFreq = Math.round(relFreq * 100.0)/100.0;
+            bc.tblData.setValueAt(relFreq + "%", i, 2);
+            lower = higher;
+            higher = lower + mc.cw;
+        }*///1 2 3 4 4 3 3 3 5 5 5 4 4 3 2 2
+            yFactor = (Y-200)/max;
             for(int x = 0; x < heights.length; x++){
-                //may need to rever to M.getclaswidth();
+                G.setColor(c);
                 G.fillRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
+                G.setColor(Color.BLACK);
+                G.drawRect(100 + x*((X-200)/M.numOfBars), Y - 99, ((X-200)/M.numOfBars), (int)(-heights[x]*yFactor));
+                
+                
+                G.drawLine(99 + (x+1)*((X-200)/M.numOfBars), Y - 99,99 + (x+1)*((X-200)/M.numOfBars), Y - 105);
+                
             }//end for
-            //System.out.println("hello");
-            //this.repaint();  //uncomment if broken
         }//end if(started)
     }//end paintComponent
-
     /**
      * What the thread does once started.  Runs until the program is killed.  
      * Waits every 45 ms to allow other threads access to system resources
@@ -186,26 +213,30 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             }//end catch
         }//end while
     }//end run
-    
-    
     //start mouse methods
     public void mouseClicked(MouseEvent e) {
             
     }
-
     public void mousePressed(MouseEvent e) {
 
     }
-
     public void mouseReleased(MouseEvent e) {
         
     }//end mouseReleased
-
     public void mouseEntered(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
+    private void saveHistogram(){
+        Container C = this;
+        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        C.paint(im.getGraphics());
+        try{
+            ImageIO.write(im, "PNG", new File("Histogram.png"));
+        }catch(Exception e){
+            
+        }//end catch
+    }//end save
 }//end GameRenderer

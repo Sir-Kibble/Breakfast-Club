@@ -1,16 +1,16 @@
 package club;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+//import java.awt.Graphics;
+//import java.awt.image.BufferedImage;
+//import java.io.File;
+//import java.io.IOException;
+//import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.util.ArrayList;
 import java.awt.event.MouseListener;
 import javax.swing.JColorChooser;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 //import java.util.ArrayList;
 /**
  * David DeMeritt       dbdemeritt@valdosta.edu
@@ -269,16 +269,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-    private void saveHistogram(){
-        Container C = this;
-        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_BGR);
-        C.paint(im.getGraphics());
-        try{
-            ImageIO.write(im, "PNG", new File("Histogram.png"));
-        }catch(Exception e){
-            System.out.println("Error saving file!!");
-        }//end catch
-    }//end save
+    
 
     public Thread getT() {
         return T;

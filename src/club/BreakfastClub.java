@@ -3,8 +3,8 @@ package club;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics2D;
+//import java.awt.Container;
+//import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -522,7 +522,6 @@ public class BreakfastClub extends javax.swing.JFrame {
         
         if (x == JFileChooser.APPROVE_OPTION) {
             
-        Container C = H;
         
         //BufferedImage im = H.crea.createBufferedImage(H.getWidth(), H.getHeight());
         

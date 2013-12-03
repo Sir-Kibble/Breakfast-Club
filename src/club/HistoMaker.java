@@ -22,7 +22,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     public static final int TYPE_USHORT_555_RGB = 9;
     private  Thread T;
     //private JColorChooser JC;
-    private Color c;//temp color
+    private Color c = Color.BLUE;//temp color
     private MathClass M;
     String title,xAxis,yAxis;
     private int X,Y,n,ticks, max, min,mouseX,mouseY;
@@ -30,6 +30,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
     private boolean started,flag;
     private int clicks;
     private int[] heights;
+    
     //begin constructor.  May remove boolean arg for future
     public HistoMaker(){
         T = new Thread(this);
@@ -174,7 +175,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             //grabbing screen size...
             X = this.getWidth();
             Y = this.getHeight();
-            c = new Color(20,128,128);
+            //c = new Color(20,128,128);
             //Adding random color mode eventually for extra eye strain?
             G.setColor(Color.BLACK);//using grey
             //draw headers and lines here
@@ -187,6 +188,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
             yFactor = (Y-200)/max;
             double lower = M.lcl;
             double higher = lower + M.cw;
+            
             for(int x = 0; x < heights.length; x++){
                 if(mouseX > 100 + x*((X-200)/M.numOfBars) && mouseX < 100 + (x+1)*((X-200)/M.numOfBars))
                     
@@ -200,19 +202,40 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
                 
                 
                 G.drawLine(99 + (x+1)*((X-200)/M.numOfBars), Y - 99,99 + (x+1)*((X-200)/M.numOfBars), Y - 105);
+
+                Double z = (Math.round(lower*100.0)/100.0);
+                String y = z.toString();
+
+                //G.drawString(y,75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
                 
                 if (x == 0) {
-                    G.drawString("(" + (Math.round(lower*100.0)/100.0) + ")",75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
+                
+                    G.drawString(y, 85, Y-75);
+                
                 }
+                
+                else if (x == heights.length - 1) {
+                    
+                    Double i = M.ucl;
+                    
+                    G.drawString(i.toString(), X-115, Y - 75);
+                    G.drawString(y, 85 + (x) * ((X-115-85) / M.numOfBars), Y - 75);
+                    
+                }
+                
                 else {
-                    G.drawString("[" + (Math.round(lower*100.0)/100.0) +")",75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
+                    
+                    G.drawString(y, 85 + (x) * ((X-115-85) / M.numOfBars), Y - 75);
+                    
                 }
+                
                 lower = higher;
                 higher = lower + M.cw;
                 flag = false;
                 mouseX = 0;
                 mouseY = 0;
             }//end for
+            
         }//end if(started)
     }//end paintComponent
     /**

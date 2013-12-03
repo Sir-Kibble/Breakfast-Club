@@ -1,9 +1,7 @@
 package club;
 
-
 import java.util.ArrayList;
-
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -77,6 +75,10 @@ public class Statistics {
     }
     
     public void setTable() {
+        
+        DefaultTableModel model = (DefaultTableModel) bc.tblData.getModel();
+        model.setRowCount(0);
+        model.setRowCount(20);
         
         if(n == 0)
             mc = new MathClass(data);

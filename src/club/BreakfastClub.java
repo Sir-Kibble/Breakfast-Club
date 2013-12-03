@@ -2,6 +2,7 @@ package club;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -26,6 +27,8 @@ import javax.swing.JFileChooser;
  * @author jwvandyke
  */
 public class BreakfastClub extends javax.swing.JFrame {
+    
+    int numberOfBars = 0;
     
     /**
      * Creates new form BreakfastClub
@@ -65,6 +68,7 @@ public class BreakfastClub extends javax.swing.JFrame {
         txtYAxis = new javax.swing.JTextField();
         txtXTitle = new javax.swing.JTextField();
         txtTitle = new javax.swing.JTextField();
+        jcc = new javax.swing.JColorChooser();
         pnlDisplay = new javax.swing.JPanel();
         pnlStats = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -158,17 +162,20 @@ public class BreakfastClub extends javax.swing.JFrame {
                     .addComponent(btnDisplayCustomized, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                     .addGroup(pnlCustomizeLayout.createSequentialGroup()
                         .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lblNumOfBars, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblYTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblXTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(lblHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTitle)
-                            .addComponent(txtXTitle)
-                            .addComponent(txtYAxis)
-                            .addComponent(cboNumOfBars, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlCustomizeLayout.createSequentialGroup()
+                                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(lblNumOfBars, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblYTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblXTitle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(lblHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtTitle)
+                                    .addComponent(txtXTitle)
+                                    .addComponent(txtYAxis)
+                                    .addComponent(cboNumOfBars, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -191,7 +198,9 @@ public class BreakfastClub extends javax.swing.JFrame {
                 .addGroup(pnlCustomizeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNumOfBars)
                     .addComponent(cboNumOfBars, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jcc, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(btnDisplayCustomized)
                 .addContainerGap())
         );
@@ -481,11 +490,22 @@ public class BreakfastClub extends javax.swing.JFrame {
 
         }
         H.setData(nums);
+        
         s = new Statistics(nums,this);
-        if(cboNumOfBars.getSelectedIndex() != 0)
-        s.n = Integer.parseInt((String)cboNumOfBars.getSelectedItem());
-        else
-            s.n = 0;
+        
+        if (numberOfBars == 0) {
+            
+            s.setTable();
+            
+        }
+        
+        else {
+            
+            s.n = numberOfBars;
+            s.setTable();
+            
+        }
+        
         if(!H.getState())// start the histogram diplay if not already started
             H.start();
         
@@ -523,12 +543,11 @@ JFileChooser jfc = new JFileChooser();
         String yTitle = txtYAxis.getText();
         String numOfBars = (String)cboNumOfBars.getSelectedItem();
         
-        int numberOfBars = 0;
-        
         if (numOfBars.equals("Square Root of n")) {
             
             numberOfBars = 0;
             //Need to pass this to MathClass someway
+            
             
         }
         
@@ -538,9 +557,14 @@ JFileChooser jfc = new JFileChooser();
             H.setN(numberOfBars);
             
         }
+        
         H.title = title;
         H.xAxis = xTitle;
         H.yAxis = yTitle;
+        
+        Color color = jcc.getColor();
+        H.setC(color);
+        
         btnDisplayActionPerformed(evt);
     }//GEN-LAST:event_btnDisplayCustomizedActionPerformed
 
@@ -590,6 +614,7 @@ JFileChooser jfc = new JFileChooser();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JColorChooser jcc;
     private javax.swing.JLabel lblHistogram;
     public javax.swing.JLabel lblMean;
     public javax.swing.JLabel lblMeanData;

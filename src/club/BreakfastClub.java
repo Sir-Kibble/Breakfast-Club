@@ -425,7 +425,7 @@ public class BreakfastClub extends javax.swing.JFrame {
 
                 ArrayList<Double> nums = new ArrayList<Double>();
 
-                Matcher m = Pattern.compile(("\\d+")).matcher(data);
+                Matcher m = Pattern.compile(("\\d+(\\.\\d+)?")).matcher(data);
 
                 if (m.find()) {
 
@@ -433,7 +433,7 @@ public class BreakfastClub extends javax.swing.JFrame {
 
                 }
 
-                m = Pattern.compile(("\\s\\d+")).matcher(data);
+                m = Pattern.compile(("\\s\\d+(\\.\\d+)?")).matcher(data);
 
                 while (m.find()) {
 

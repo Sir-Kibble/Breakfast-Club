@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -514,19 +516,19 @@ public class BreakfastClub extends javax.swing.JFrame {
 
     private void mnitSaveHistoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnitSaveHistoActionPerformed
         
-JFileChooser jfc = new JFileChooser();
+        JFileChooser jfc = new JFileChooser();
         
         int x = jfc.showSaveDialog(null);
         
         if (x == JFileChooser.APPROVE_OPTION) {
             
         Container C = H;
-        BufferedImage im = new BufferedImage(C.getWidth(), C.getHeight(), BufferedImage.TYPE_INT_RGB);
-        C.paint(im.getGraphics());
+        
+        //BufferedImage im = H.crea.createBufferedImage(H.getWidth(), H.getHeight());
         
         try{
-            
-            ImageIO.write(im, "png", new File(jfc.getSelectedFile()+".png"));
+            BufferedImage image = new Robot().createScreenCapture(new Rectangle(H.getLocationOnScreen().x, H.getLocationOnScreen().y, H.getWidth(), H.getHeight()));
+            ImageIO.write(image, "png", new File(jfc.getSelectedFile()+".png"));
                 
             }//end try
             

@@ -99,6 +99,11 @@ public class BreakfastClub extends javax.swing.JFrame {
         lblTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         tabStatistics.setPreferredSize(new java.awt.Dimension(723, 800));
+        tabStatistics.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tabStatisticsFocusGained(evt);
+            }
+        });
 
         txtAreaNums.setColumns(20);
         txtAreaNums.setLineWrap(true);
@@ -575,6 +580,10 @@ public class BreakfastClub extends javax.swing.JFrame {
     private void cboNumOfBarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumOfBarsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboNumOfBarsActionPerformed
+
+    private void tabStatisticsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabStatisticsFocusGained
+        H.requestFocus();
+    }//GEN-LAST:event_tabStatisticsFocusGained
 
     /**
      * @param args the command line arguments

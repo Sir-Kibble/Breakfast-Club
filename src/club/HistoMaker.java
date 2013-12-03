@@ -242,7 +242,7 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
      * only calls repaint method to update the panel
      */
     public void run(){
-        while(true){
+        while(this.isFocusOwner()){
                 this.repaint();
              try{
         T.sleep(45);

@@ -205,8 +205,6 @@ public class HistoMaker extends JPanel implements Runnable, MouseListener  {
 
                 Double z = (Math.round(lower*100.0)/100.0);
                 String y = z.toString();
-
-                //G.drawString(y,75+((X-200)/n * x)+((X-200)/n)/2, Y-75);
                 
                 if (x == 0) {
                 

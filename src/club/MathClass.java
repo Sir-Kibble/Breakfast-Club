@@ -9,6 +9,9 @@ public class MathClass {
     double lcl;
     int numOfBars;
     double cw;
+    ArrayList<Double> outliers;
+
+    
     
     public MathClass(ArrayList<Double> al) {
         
@@ -101,7 +104,7 @@ public class MathClass {
         
     }
     
-    public void getOutliers() {
+    public void Outliers() {
         
         double lower = getQ1() - (1.5 * getIQR());
         double higher = getQ3() + (1.5 * getIQR());
@@ -110,7 +113,8 @@ public class MathClass {
             
             if (al.get(i) < lower || al.get(i) > higher) {
                 
-                System.out.println(al.get(i));
+                //System.out.println(al.get(i));
+                outliers.add(al.get(i));
                 
             }
             
@@ -278,5 +282,9 @@ public class MathClass {
         return (double)val;
         
     }//end getMode
+    
+    public ArrayList<Double> getOutliers() {
+        return outliers;
+    }
 
 }//end class
